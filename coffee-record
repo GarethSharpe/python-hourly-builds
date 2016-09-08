@@ -1,0 +1,139 @@
+import os
+
+# clear_file('coffee_record.txt')
+def clear_file(file):
+    file_variable = open(file, 'w')
+    file_variable.close()
+
+def add_coffee_record():
+    entries = int(input('Enter the number of coffee records you would like to add: '))
+    count = 0
+    coffee_record = open('coffee_record.txt', 'a')
+    add_more = 'N'
+
+    while count < entries:
+        count += 1
+        description = input('Enter the name of the coffee for entry ' + str(count) + ': ')
+        quantity = input('Enter the number of pounds of inventory: ')
+        coffee_record.write(description + '\n')
+        coffee_record.write(quantity + '\n')
+
+    add_more = input('Would you like to add more coffee records? [Y/N]: ')
+
+    if add_more == 'Y' or add_more == 'y':
+        add_coffee_record()
+    else:
+        print('Data appended to coffee_record.txt.')
+
+def show_coffee_file():
+    coffee_file = open('coffee_record.txt', 'r')
+    description = coffee_file.readline()
+
+    while description != '':
+        quantity = float(coffee_file.readline())
+        description = description.rstrip('\n')
+
+        print('Description:', description)
+        print('Quantity: ', quantity, 'lbs', sep='')
+
+        description = coffee_file.readline()
+
+    coffee_file.close()
+
+def search_coffee_file():
+    coffee_file = open('coffee_record.txt', 'r')
+    found = False
+    search = str(input('Enter the description to search for: '))
+    description = coffee_file.readline()
+
+    while description != '':
+        quantity = coffee_file.readline()
+        if description == search:
+            quantity = quantity.rstrip('\n')
+            description = description.rstrip('\n')
+
+            print('Description: ', description)
+            print('Quantity: ', quantity)
+            found = True
+
+        description = coffee_file.readline()
+
+    coffee_file.close()
+
+    if not found:
+        print('The item was not found in the file.')
+
+def modify_coffee_record():
+    coffee_file = open('coffee_record.txt', 'r')
+    temp_file = open('temp_file.txt', 'w')
+    found = False
+    search_description = input('Enter the coffee record description you wish to modify: ')
+    new_quantity = str(input('Please enter the new coffee quantity: '))
+    description = coffee_file.readline()
+
+    while description != '':
+        quantity = float(coffee_file.readline())
+        description = description.rstrip('\n')
+
+        if description == search_description:
+            print('The', search_description, 'coffee has been modified to reflect a quantity change from',
+                  str(quantity), 'lbs to', new_quantity, 'lbs.')
+            temp_file.write(description + '\n')
+            temp_file.write(str(new_quantity) + '\n')
+            found = True
+        else:
+            temp_file.write(description + '\n')
+            temp_file.write(str(quantity) + '\n')
+
+        description = coffee_file.readline()
+
+    coffee_file.close()
+    temp_file.close()
+    os.remove('coffee_record.txt')
+    os.rename('temp_file.txt', 'coffee_record.txt')
+
+    if found:
+        print('The file has been updated')
+    else:
+        print('That item was not found on the file')
+
+def delete_coffee_record():
+    coffee_file = open('coffee_record.txt', 'r')
+    temp_file = open('temp_file.txt', 'w')
+    found = False
+    description_to_delete = input('Please enter the description of the coffee to delete: ')
+    description = coffee_file.readline()
+
+    while description != '':
+        quantity = float(coffee_file.readline())
+        description = description.rstrip('\n')
+
+        if description != description_to_delete:
+            temp_file.write(description + '\n')
+            temp_file.write(str(quantity) + '\n')
+        else:
+            found = True
+
+        description = coffee_file.readline()
+
+    coffee_file.close()
+    temp_file.close()
+    os.remove('coffee_record.txt')
+    os.rename('temp_file.txt', 'coffee_record.txt')
+
+    if found:
+        print('The file has been updated.')
+    else:
+        print('The item was not found in the file')
+
+def file_display():
+
+    try:
+        file_variable = open('numbers.txt', 'r')
+        for line in file_variable:
+            print(line)
+
+    except IOError:
+        print('An error occurred trying to read the file.')
+    except:
+        print('An error occurred.')
