@@ -1,0 +1,41 @@
+def rps_game_main():
+    computer = random.randint(1, 4)
+    computer = num_to_str(computer)
+
+    player = str(input('Player; Enter your choice of Rock, Paper, or Scissors: '))
+    winner = get_winner(computer, player)
+    display_winner(player, computer, winner)
+
+    rps_game_main()
+
+def num_to_str(num):
+    if num == 1:
+        return 'Rock'
+    elif num == 2:
+        return 'Paper'
+    else:
+        return 'Scissors'
+
+def get_winner(computer, player):
+    if computer == 'Rock' and player == 'Scissors' or \
+       computer == 'Paper' and player == 'Rock' or \
+       computer == 'Scissors' and player == 'Paper':
+        return 'computer'
+    elif player == 'Rock' and computer == 'Scissors' or \
+       player == 'Paper' and computer == 'Rock' or \
+       player == 'Scissors' and computer == 'Paper':
+        return 'player'
+    elif player == computer:
+        return 'Tie'
+    else:
+        return 'Invalid Entry'
+
+def display_winner(player, computer, winner):
+    if winner == 'computer':
+        print(computer, ' beats ', player, '. YOU LOSE!', sep='')
+    elif winner == 'player':
+        print(player, ' beats ', computer, '. YOU WIN!', sep='')
+    elif winner == 'Tie':
+        print('Its a tie!')
+    else:
+        print('Invalid Entry.')
