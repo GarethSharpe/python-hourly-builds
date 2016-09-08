@@ -1,0 +1,36 @@
+def is_prime(number):
+
+    if number == 2:
+        return True
+    elif number == 3:
+        return True
+    elif number % 2 == 0:
+        return False
+    elif number % 3 == 0:
+        return False
+
+    i = 5
+    w = 2
+
+    while i * i <= number:
+        if number % i == 0:
+            return False
+
+        i += w
+        w = 6 - w
+
+    return True
+
+def prime_list():
+    start = 1
+    end = 10
+    lst = []
+
+    while start < end:
+        if is_prime(start):
+            lst.append(start)
+            start += 1
+        else:
+            start += 1
+
+    print(lst)
