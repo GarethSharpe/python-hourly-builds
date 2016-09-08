@@ -1,0 +1,45 @@
+def display_menu():
+    print('MENU')
+    print('1) Modify Class A Seat Count')
+    print('2) Modify Class B Seat Count')
+    print('3) Modify Class C Seat Count')
+    print('4) Display Current Seat Count')
+    print('5) Calculate Ticket Sales')
+    print('6) Quit')
+
+def seat_count_main():
+
+    menu_choice = 0
+
+    class_a_count = 0
+    class_b_count = 0
+    class_c_count = 0
+
+    while menu_choice != QUIT:
+        display_menu()
+
+        menu_choice = int(input('Enter your menu choice: '))
+
+        if menu_choice == CLASS_A_CHOICE:
+            class_a_count = int(input('Enter the number of Class A seat sales: '))
+        elif menu_choice == CLASS_B_CHOICE:
+            class_b_count = int(input('Enter the number of Class B seat sales: '))
+        elif menu_choice == CLASS_C_CHOICE:
+            class_c_count = int(input('Enter the number of Class C seat sales: '))
+        elif menu_choice == CURRENT_SEAT_NUMBER:
+            print('Class A seat count: ', class_a_count)
+            print('Class B seat count: ', class_b_count)
+            print('Class C seat count: ', class_c_count)
+        elif menu_choice == CALCULATE_SALES:
+            calculate_seat_sales(class_a_count, class_b_count, class_c_count)
+        elif menu_choice == QUIT:
+            print('Exiting program ...')
+        else:
+            print('Error: invalid selection')
+
+def calculate_seat_sales(a_count, b_count, c_count):
+    a_sales = a_count * 20.00
+    b_sales = b_count * 15.00
+    c_sales = c_count * 10.00
+    total_sales = a_sales + b_sales + c_sales
+    print('The total sales from all seat purchases is $', (format(total_sales, '.2f')))
