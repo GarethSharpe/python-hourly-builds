@@ -1,0 +1,47 @@
+available_seats = (list(range(1,11)))
+
+taken_seats = []
+flight_itinerary = []
+
+def plane():
+
+    print()
+    print("Welcome to Sharpe Airlines.")
+    print()
+    name = input("What is your name? ")
+    print()
+    print("Welcome aboard " + name + "! Took you long enough.")
+
+    customer = {name : []}
+
+    print()
+    print("The available seats are: {0}".format(available_seats))
+
+    seat_selected = int(input("Which seat would you like to sit in: "))
+
+    print()
+    print("You have chosen seat {0}".format(seat_selected))
+    print()
+
+    if (int(seat_selected) in available_seats) and (int(seat_selected) not in taken_seats):
+        available_seats.remove(int(seat_selected))
+        taken_seats.append(int(seat_selected))
+        customer[name].append(int(seat_selected))
+
+        flight_itinerary.append(customer)
+
+        print("Congradulations, that seat is available, {0}!".format(name))
+        print()
+        print("Your selected seat is: {0}".format(str(seat_selected)))
+        print("Your name and seat number are: {0}".format(str(customer)))
+        print("Thanks for flying with Sharpe airlines. No we're not the calculator company.")
+        plane()
+
+    elif int(seat_selected) in taken_seats:
+        print("Sorry, that seat is already take! Please choose another seat")
+        plane()
+    elif (int(seat_selected) not in available_seats) and (seat_selected not in taken_seats):
+        print("Stop trying to break things, please. Ya filthy animal.")
+        plane()
+
+plane()
