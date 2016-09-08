@@ -1,0 +1,78 @@
+resistors = {
+    'BLACK': 0, 'BROWN': 1, 'RED': 2, 'ORANGE': 3, 'YELLOW': 4,
+    'GREEN': 5, 'BLUE': 6, 'VIOLET': 7, 'GREY': 8, 'WHITE': 9}
+
+def intention_query():
+    print("Would you like to determine resistance or band colour?")
+    print("[1] Resistance")
+    print("[2] Band colour")
+    this = input("Input: ")
+    if this == '1':
+        resistance_is_futile(colour_query())
+    elif this == '2':
+        resistance_query()
+    else:
+        print("Invalid entry")
+        intention_query()
+
+def resistance_query():
+    bands_to_return = []
+    resistors_copy = resistors
+    resistors_copy = {v: k for k, v in resistors_copy.items()}
+    print("Example: 330 or 330K or 3.3M")
+    resistance = list(input("Please enter your resistance like in the formatted example: "))
+    print(resistance)
+    if len(resistance) == 3:
+        bands_to_return.append(resistors_copy[(int(resistance[0]))])
+        bands_to_return.append(resistors_copy[(int(resistance[1]))])
+        if resistance[2] != 'K' or resistance[2] != 'k':
+            bands_to_return.append('BROWN')
+            print(bands_to_return)
+        elif resistance[2] == 'K' or resistance[2] == 'k':
+            bands_to_return.append('ORANGE')
+            print(bands_to_return)
+    elif len(resistance) == 4:
+        if resistance[3] == 'K' or resistance[3] == 'k' and resistance[1] != str('.'):
+            bands_to_return.append((resistors_copy[(int(resistance[0]))], resistors_copy[(int(resistance[1]))]))
+            bands_to_return.append('YELLOW')
+            print(bands_to_return)
+        elif resistance[3] == 'K' or resistance[3] == 'k' and resistance[1] == str('.'):
+            bands_to_return.append((resistors_copy[(int(resistance[0]))], resistors_copy[(int(resistance[2]))]))
+            bands_to_return.append('RED')
+            print(bands_to_return)
+        elif resistance[3] == 'M' or resistance[3] == 'm' and resistance[1] != str('.'):
+            bands_to_return.append((resistors_copy[(int(resistance[0]))], resistors_copy[(int(resistance[1]))]))
+            bands_to_return.append('BLUE')
+            print(bands_to_return)
+        elif resistance[3] == 'M' or resistance[3] == 'm' and resistance[1] == str('.'):
+            bands_to_return.extend((resistors_copy[(int(resistance[0]))], resistors_copy[(int(resistance[2]))]))
+            bands_to_return.append('GREEN')
+            print(bands_to_return)
+    else:
+        print("Your entry is invalid.")
+
+def colour_query():
+    maxLengthList = 3
+    colours = []
+    print("Enter your 3 resistor colours below: ")
+    while len(colours) < maxLengthList:
+        band_colour = input(str(len(colours) + 1) + ".")
+        if band_colour.upper() in resistors:
+            colours.append(band_colour.upper())
+        else:
+            print("A colour you entered is invalid. Try again fool.")
+            resistance_is_futile(colour_query())
+    print(colours)
+    return(colours)
+
+def resistance_is_futile(colours):
+    total_value = (resistors[colours[0]] * 10) + resistors[colours[1]]
+    multiplied_value = total_value * 10**(resistors[colours[2]])
+    if multiplied_value % 1000 < 9:
+        print("".join([str(total_value), "K Ohms"]))
+    elif multiplied_value % 10000 < 9:
+        print("".join([str(total_value), "M Ohms"]))
+    else:
+        print("".join([str(multiplied_value), " Ohms"]))
+
+intention_query()
