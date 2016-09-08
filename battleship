@@ -1,0 +1,53 @@
+from random import randint
+
+board = []
+
+a = 4
+
+for x in range(0,a):
+    board.append(["O"] * a)
+
+def print_board(board):
+    for row in board:
+        print(" ".join(row))
+
+print_board(board)
+
+def random_row(board):
+    return randint(0, len(board))
+
+def random_col(board):
+    return randint(0, len(board))
+
+ship_row = random_row(board)
+ship_col = random_col(board)
+print(ship_row)
+print(ship_col)
+
+def battleship():
+    turn = 0
+    while turn < 4:
+
+        print("Turn", turn + 1)
+
+        guessed_row = int(input("Which column do you think I am hiding in? "))
+        guessed_col = int(input("Which row do you think I am hiding in? "))
+
+
+        if guessed_row in range(0, a) and guessed_col in range(0, a):
+            if guessed_row == ship_row and guessed_col == ship_col:
+                print("Congradulations, you sunk my ship!")
+                break
+            elif board[guessed_col][guessed_row] == 'x':
+                print("You guessed that spot already!")
+                turn += 1
+            else:
+                print("You missed sucker")
+                board[guessed_col][guessed_row] = 'x'
+                turn += 1
+                print_board(board)
+        elif guessed_row not in range(0, a) or guessed_col not in range(0, a):
+            print("Oops, you guess outside of the ocean!")
+            turn += 1
+
+battleship()
