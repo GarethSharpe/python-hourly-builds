@@ -1,0 +1,42 @@
+def hangman(string):
+    word_string = string
+    guessed_list = ['*'] * len(word_string)
+
+    def get_word_list():
+        word_list = []
+
+        for letter in word_string:
+            word_list.append(letter)
+
+        return word_list
+
+    def get_guess():
+        guess = str(input('Enter lowercase letter would you like to guess: '))
+        if len(guess) > 1 or guess == int:
+            print('Invalid guess. Guess again.')
+            get_guess()
+        else:
+            return guess
+
+    def is_guess_right():
+        guess = get_guess()
+        word_list = get_word_list()
+        index_list = []
+
+        if guess in word_list:
+            for index in range(len(word_list)):
+                if word_list[index] == guess:
+                    index_list.append(index)
+
+            for index in index_list:
+                guessed_list[index] = guess
+                print(guessed_list)
+                if word_list == guessed_list:
+                    print('Congratulations, you WON!')
+                else:
+                    is_guess_right()
+        else:
+            print('Your guess is not in the word we are thinking of!')
+            is_guess_right()
+
+    is_guess_right()
