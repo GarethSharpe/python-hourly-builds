@@ -1,0 +1,646 @@
+import random
+
+class Car(object):
+    condition = "new"
+    def __init__(self, model, color, mpg):
+        self.model = model
+        self.color = color
+        self.mpg   = mpg
+
+    def display_car(self):
+        print("This is a " + self.color + " " + self.model + " with " + str(self.mpg) + " MPG.")
+
+    def drive_car(self):
+        self.condition = "used"
+
+class ElectricCar(Car):
+    def __init__(self, model, color, mpg, battery_type):
+        self.model = model
+        self.color = color
+        self.mpg   = mpg
+        self.battery_type = battery_type
+
+def car_main():
+    my_car = ElectricCar("Tesla", "black", 120, "molten salt")
+    print(my_car.condition)
+    print(my_car.model)
+    print(my_car.color)
+    print(my_car.mpg)
+
+    my_car.drive_car()
+
+    print(my_car.condition)
+
+    my_car.display_car()
+
+'''
+ULM Diagram for the Coin class
+-------------------------------|
+            Coin               |
+-------------------------------|
+__sideup                       |
+-------------------------------|
+__init__()                     |
+toss()                         |
+get_sideup                     |
+-------------------------------|
+'''
+
+class Coin:
+    def __init__(self):
+        self.__sideup = 'Unknown'
+
+    def toss(self):
+        print('I am tossing the coin...')
+        if random.randint(0,1) == 0:
+            self.__sideup = 'Heads'
+        else:
+            self.__sideup = 'Tails'
+
+    def get_sideup(self):
+        return self.__sideup
+
+    def display_side_up(self):
+        print('This side is up:', self.__sideup)
+
+def coin_main():
+    # Create an object from the Coin class
+    my_coin = Coin()
+
+    # Display the side of the coin that is facing up
+    my_coin.display_side_up()
+
+    # Toss the coin
+    my_coin.toss()
+
+    # Display the side of the coin that is facing up
+    my_coin.display_side_up()
+
+'''
+ULM Diagram for the BankAccount class
+-------------------------------------|
+             BankAccount             |
+-------------------------------------|
+__balance                            |
+-------------------------------------|
+__init__()                           |
+deposit(amount)                      |
+withdrawal(amount)                   |
+get_balance()                        |
+__str__()                            |
+-------------------------------------|
+'''
+
+class BankAccount:
+    def __init__(self, bal):
+        self.__balance = bal
+
+    # The deposit method makes a deposit into the account
+    def deposit(self, amount):
+        self.__balance += amount
+
+    # The withdrawal method withdrawals an amount from the account
+    def withdrawal(self, amount):
+        if self.__balance >= amount:
+            self.__balance -= amount
+        else:
+            print('Error: Insufficient funds')
+
+    # The get_balance method returns the account balance
+    def get_balance(self):
+        return self.__balance
+
+    # The display_balance method displays the balance amount
+    def __str__(self):
+        return 'Your current account balance is $' + format(self.__balance, ',.2f')
+
+def bank_account_main():
+    # Get the starting balance.
+    starting_balance = float(input('Enter your starting balance: '))
+
+    # Create a BankAccount object.
+    savings = BankAccount(starting_balance)
+
+    # Deposit the user's paycheck.
+    pay = float(input('How much were you paid this week? '))
+    print('I will deposit that into your account for you.')
+    savings.deposit(pay)
+
+    # Display the balance.
+    print(savings)
+
+    cash_out = float(input('How much would you like to withdraw? '))
+    print('I will withdraw that from your account.')
+    savings.withdrawl(cash_out)
+
+    print(savings)
+
+'''
+ULM Diagram for the CellPhone class
+-------------------------------------|
+              CellPhone              |
+-------------------------------------|
+__manufact                           |
+__model                              |
+__retail_price                       |
+-------------------------------------|
+__init__()                           |
+set_manufact()                       |
+set_model()                          |
+set_retail_price()                   |
+get_manufact()                       |
+get_model()                          |
+get_retail_price()                   |
+display_attributes()                 |
+-------------------------------------|
+'''
+
+class CellPhone:
+    def __init__(self, manufact, model, retail_price):
+        self.__manufact = manufact
+        self.__model = model
+        self.__retail_price = retail_price
+
+    def set_manufact(self, manufact):
+        self.__manufact = manufact
+
+    def set_model(self, model):
+        self.__model = model
+
+    def set_retail_price(self, retail_price):
+        self.__retail_price = retail_price
+
+    def get_manufact(self):
+        return self.__manufact
+
+    def get_model(self):
+        return self.__model
+
+    def get_retail_price(self):
+        return self.__retail_price
+
+    def display_attributes(self):
+        print('Manufacturer:', self.__manufact)
+        print('Model:', self.__model)
+        print('Retail_price:', self.__retail_price)
+
+def cellphone_main():
+    my_cell = CellPhone('Samsung', 'Nexus', 500)
+
+    my_cell.display_attributes()
+
+    my_cell.set_manufact('Google')
+
+    my_cell.display_attributes()
+
+def cell_phone_list():
+
+    # Make an empty phone list.
+    phone_list = [ ]
+
+    # Add five CellPhone objects to the list
+    print('Enter the data for five cellphones.')
+    for count in range(1, 6):
+        # Get the phone data.
+        print('Phone number ', str(count), ':', sep='')
+        manufact = input('Enter the manufacturer: ')
+        model = input('Enter the model number: ')
+        retail = float(input('Enter the retail price: '))
+        print()
+
+        # Create a new CellPhone object in memory and assign
+        # it to the phone variable
+        phone = CellPhone(manufact, model, retail)
+        phone_list.append(phone)
+
+
+    for phone in phone_list:
+        phone.display_attributes()
+
+def pickle_cellphone():
+    import pickle
+
+    # Constant for the file name.
+    file_name = 'cellphones.dat'
+    again = 'y'
+    output_file = open(file_name, 'wb')
+
+    # Get data from the uers
+    while again.lower() == 'y':
+        manufact = input('Enter the manufacturer: ')
+        model = input('Enter the model: ')
+        retail_price = float(input('Enter the retail price: '))
+
+        # Create a CellPhone object
+        phone = CellPhone(manufact, model, retail_price)
+
+        # Pickle the object and write it to the file
+        pickle.dump(phone, output_file)
+
+        # Get more cellphone data?
+        again = input('Enter more phone data? (y/n): ')
+
+    output_file.close()
+    print('The data was written to', file_name)
+
+
+def unpickle_cellphone():
+    import pickle
+
+    # constant for the file name
+    file_name = 'cellphones.dat'
+
+    end_of_file = False
+
+    input_file = open(file_name, 'rb')
+
+    while not end_of_file:
+        try:
+            # Unpickle the next object
+            phone = pickle.load(input_file)
+            phone.display_attributes()
+        except EOFError:
+            end_of_file = True
+
+    input_file.close()
+
+'''
+ULM Diagram for the Contact class
+-------------------------------------|
+               Contact               |
+-------------------------------------|
+__name                               |
+__phone                              |
+__email                              |
+-------------------------------------|
+__init__()                           |
+set_name()                           |
+set_phone()                          |
+set_email()                          |
+get_name()                           |
+get_phone()                          |
+get_email()                          |
+__str__                              |
+-------------------------------------|
+'''
+
+class Contact:
+    def __init__(self, name, phone, email):
+        self.__name = name
+        self.__phone = phone
+        self.__email = email
+
+    def set_name(self, name):
+        self.__name = name
+
+    def set_phone(self, phone):
+        self.__phone = phone
+
+    def set_email(self, email):
+        self.__email = email
+
+    def get_name(self):
+        return self.__name
+
+    def get_phone(self):
+        return self.__phone
+
+    def get_email(self):
+        return self.__email
+
+    def __str__(self):
+        return "Name: " + self.__name + \
+            "\nPhone: " + self.__phone + \
+            "\nEmail: " + self.__email
+
+def contact_manager():
+    import pickle
+
+    # Global constants for menu choices
+    LOOK_UP = 1
+    ADD = 2
+    CHANGE = 3
+    DELETE = 4
+    QUIT = 5
+
+    file_name = 'contacts.dat'
+    choice = 0 # User choice variable
+
+    def load_contacts():
+        try:
+            input_file = open(file_name, 'rb')
+            contact_dct = pickle.load(input_file)
+            input_file.close()
+        except IOError:
+            # Could not open the file, so create an
+            # empty dictionary
+            contact_dct = { }
+            return contact_dct
+
+    # Load the existing contact dictionary and
+    # assign it to my_contacts
+
+    my_contacts = load_contacts()
+
+    def get_menu_choice():
+        # Display the menue
+        print('----------- Main Menu -----------')
+        print('1. Look up a contact.')
+        print('2. Add a new contact.')
+        print('3. Change an existing contact.')
+        print('4. Delete a contact.')
+        print('5. Quit the program.')
+        print()
+
+        choice = int(input('Enter your choice: '))
+
+        while choice < LOOK_UP or choice > QUIT:
+            choice = int(input('Enter a valid choice: '))
+
+        return choice
+
+    def look_up(my_contacts):
+        name = input('Enter a name: ')
+        print(my_contacts.get(name, 'That name is not found.'))
+
+    def add(my_contacts):
+        # Get the contact info.
+        name = input('Name: ')
+        phone = input('Phone: ')
+        email = input('Email: ')
+
+        # Create entry
+        entry = Contact(name, phone, email)
+
+        if name not in my_contacts:
+            my_contacts[name] = entry
+            print('The entry has been added.')
+        else:
+            print('That name already exists.')
+
+    def change(my_contacts):
+        name = input('Enter a name: ')
+
+        if name in my_contacts:
+            phone = input('Enter the new phone number: ')
+            email = input('Enter the new email: ')
+            entry = Contact(name, phone, email)
+
+            my_contact[name] = entry
+            print('Information updated.')
+        else:
+            print('That name is not found.')
+
+    def delete(my_contacts):
+        name = input('Enter a name: ')
+
+        if name in my_contacts:
+            del my_contacts[name]
+            print('Entry deleted.')
+        else:
+            print('That name is not found.')
+
+    def save_contacts(my_contacts):
+        output_file = open(file_name, 'wb')
+        pickle.dump(my_contacts, output_file)
+        output_file.close()
+
+    while choice != QUIT:
+        choice = get_menu_choice()
+
+        if choice == LOOK_UP:
+            look_up(my_contacts)
+        elif choice == ADD:
+            add(my_contacts)
+        elif choice == CHANGE:
+            change(my_contacts)
+        elif choice == DELETE:
+            delete(my_contacts)
+
+    save_contacts(my_contacts)
+
+class Book:
+    def __init__(self, title, author, publisher):
+        self._title = title
+        self._author = author
+        self._publisher = publisher
+
+    def set_title(self, title):
+        self._title = title
+
+    def set_author(self, author):
+        self._author = author
+
+    def set_publisher(self, publisher):
+        self._publisher = publisher
+
+    def get_title(self):
+        return self._title
+
+    def get_author(self):
+        return self._author
+
+    def get_publisher(self):
+        return self._publisher
+
+    def __str__(self):
+        return 'Title: ' + self._title + \
+               '\nAuthor: ' + self._author + \
+               '\nPublisher: ' + self._publisher
+
+class Employee:
+    def __init__(self, name, ID, department, title):
+        self._name = name
+        self._ID = ID
+        self._department = department
+        self._title = title
+
+    def get_name(self):
+        return self._name
+
+    def get_ID(self):
+        return self._ID
+
+    def get_department(self):
+        return self._department
+
+    def get_title(self):
+        return self._title
+
+def employee_main():
+    employee1 = Employee('Susan Meyers', '47899', 'Accounting', 'Vice President')
+    employee2 = Employee('Mark Jones', '39119', 'IT', 'Programmer')
+    employee3 = Employee('Joy Rogers', '81774', 'Manufacturing', 'Engineer')
+
+    employee_lst = [employee1, employee2, employee3]
+
+    def display_employees(employee_lst):
+        print('----------------------------------------------------------------------------')
+        print('Name', '\t' * 3, 'ID Number', '\t' * 3, 'Department', '\t' * 3, 'Job Title')
+        print('----------------------------------------------------------------------------')
+
+        for employee in employee_lst:
+            name = employee.get_name()
+            ID = employee.get_ID()
+            department = employee.get_department()
+            job_title = employee.get_title()
+
+            print(name, ID, department, job_title, sep='\t \t \t')
+
+        print('----------------------------------------------------------------------------')
+
+    display_employees(employee_lst)
+
+
+'''
+ULM Diagram for Automobile superclass
+-------------------------------------|
+            Automobile               |
+-------------------------------------|
+_make                                |
+_year                                |
+_mileage                             |
+_price                               |
+-------------------------------------|
+__init__()                           |
+set_make()                           |
+set_year()                           |
+set_mileage()                        |
+set_price()                          |
+get_make()                           |
+get_year                             |
+get_mileage()                        |
+get_price()                          |
+-------------------------------------|
+                 |
+                 |
+                 v
+
+ULM Diagram for the Car class
+-------------------------------------|
+                Car                  |
+-------------------------------------|
+_doors                              |
+-------------------------------------|
+__init__(make, model, mileage, price)|
+set_doors()                          |
+get_doors()                          |
+-------------------------------------|
+
+ULM Diagram for the Truck class
+-------------------------------------|
+               Truck                 |
+-------------------------------------|
+_drive_type                          |
+-------------------------------------|
+__init__(make, model, mileage, price)|
+set_drive_type()                     |
+get_drive_type()                     |
+-------------------------------------|
+
+ULM Diagram for the SUV class
+-------------------------------------|
+                SUV                  |
+-------------------------------------|
+_pass_cap                            |
+-------------------------------------|
+__init__(make, model, mileage, price)|
+set_pass_cap()                       |
+get_pas_cap()                        |
+-------------------------------------|
+'''
+
+class Automobile:
+    def __init__(self, make, year, mileage, price):
+        self._make = make
+        self._year = year
+        self._mileage = mileage
+        self._price = price
+
+    def set_make(self, make):
+        self._make = make
+
+    def set_year(self, year):
+        self._year = year
+
+    def set_mileage(self, mileage):
+        self._mileage = mileage
+
+    def set_price(self, price):
+        self._price = price
+
+    def get_make(self):
+        return self._make
+
+    def get_year(self):
+        return self._year
+
+    def get_mileage(self):
+        return self._mileage
+
+    def get_price(self):
+        return self._price
+
+class Car(Automobile):
+    def __init__(self, make, year, mileage, price, doors):
+        # Call the superclass's __init__ method.
+        Automobile.__init__(self, make, year, mileage, price)
+        self._doors = doors
+
+    def set_doors(self, doors):
+        self._doors = doors
+
+    def get_doors(self):
+        return self._doors
+
+class Truck(Automobile):
+    def __init__(self, make, year, mileage, price, drive_type):
+        Automobile.__init__(self, make, year, mileage, price)
+        self._drive_type = drive_type
+
+    def set_drive_type(self, drive_type):
+        self._drive_type = drive_type
+
+    def get_drive_type(self):
+        return self._drive_type
+
+class SUV(Automobile):
+    def __init__(self, make, year, mileage, price, pass_cap):
+        Automobile.__init__(self, make, year, mileage, price)
+        self._pass_cap = pass_cap
+
+    def set_pass_cap(self, pass_cap):
+        self._pass_cap = pass_cap
+
+    def get_pass_cap(self):
+        return self._pass_cap
+
+def vehicles_main():
+    my_car = Car('Tesla S', 2016, 0, 85500.00, 2)
+    my_truck = Truck('Toyota Raptor', 2017, 0, 45000.00, '4WD')
+    my_SUV = SUV('Honda CRV', 2007, 220000, 21000.00, 5)
+
+    # Display my_car's data.
+    print('---------- My Car ----------')
+    print('Make:', my_car.get_make())
+    print('Year:', my_car.get_year())
+    print('Mileage:', my_car.get_mileage())
+    print('Price:', my_car.get_price())
+    print('Doors:', my_car.get_doors())
+
+    # Display my_truck data.
+    print('---------- My Truck ----------')
+    print('Make:', my_truck.get_make())
+    print('Year:', my_truck.get_year())
+    print('Mileage:', my_truck.get_mileage())
+    print('Price:', my_truck.get_price())
+    print('Doors:', my_truck.get_drive_type())
+
+    print('---------- My SUV ----------')
+    print('Make:', my_SUV.get_make())
+    print('Year:', my_SUV.get_year())
+    print('Mileage:', my_SUV.get_mileage())
+    print('Price:', my_SUV.get_price())
+    print('Doors:', my_SUV.get_pass_cap())
+
+vehicles_main()
